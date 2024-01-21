@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "0650119d-1bfb-435e-8ec7-eb04c33e2eff",
+		"name": "test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10314938"
+	},
+	"item": [
+		{
+			"name": "kzt",
+			"item": [
+				{
+					"name": "basic auth kzt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();\r",
+									"const accessToken = jsonResponse[\"access_token\"];\r",
+									"\r",
+									"pm.collectionVariables.set(\"client_token\", accessToken);\r",
+									"\r",
+									"function checkResponseDetails(expectedCode, expectedStatus) {\r",
+									"    pm.test('HTTP status should be 200 OK', () => {\r",
+									"        pm.expect(pm.response.code).to.eql(expectedCode);\r",
+									"        pm.expect(pm.response.status).to.be.eql(expectedStatus);\r",
+									"        pm.response.to.be.json;\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"checkResponseDetails(expectedCode = 200, expectedStatus = \"OK\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{basic_auth_header}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "bankingapi",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/oauth/token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Способ аутентификаций Client Credentials grant используется клиентами(IOS, Android, Web) для авторизаций в приложений от имени самого этого клиента. Используется для всех запросов для которых не надо входа пользователя. К примеру: регистрация, восстановление, СМС, Email, OTP авторизация итд. Первое что должно приложение делать это получение client access token. Без него приложение не сможет обращаться ни в какое api."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ved",
+			"item": [
+				{
+					"name": "basic auth ved",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();\r",
+									"const accessToken = jsonResponse[\"access_token\"];\r",
+									"\r",
+									"pm.collectionVariables.set(\"client_token\", accessToken);\r",
+									"\r",
+									"function checkResponseDetails(expectedCode, expectedStatus) {\r",
+									"    pm.test('HTTP status should be 200 OK', () => {\r",
+									"        pm.expect(pm.response.code).to.eql(expectedCode);\r",
+									"        pm.expect(pm.response.status).to.be.eql(expectedStatus);\r",
+									"        pm.response.to.be.json;\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"checkResponseDetails(expectedCode = 200, expectedStatus = \"OK\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{basic_auth_header}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "bankingapi",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/oauth/token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Способ аутентификаций Client Credentials grant используется клиентами(IOS, Android, Web) для авторизаций в приложений от имени самого этого клиента. Используется для всех запросов для которых не надо входа пользователя. К примеру: регистрация, восстановление, СМС, Email, OTP авторизация итд. Первое что должно приложение делать это получение client access token. Без него приложение не сможет обращаться ни в какое api."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "basic_auth_header",
+			"value": "Basic d2ViYXBwOnJqWkk5TWZRT2Y=",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "https://business-{{environment}}.jusan.kz:8460",
+			"type": "string"
+		},
+		{
+			"key": "environment",
+			"value": "stream-0",
+			"type": "string"
+		}
+	]
+}
