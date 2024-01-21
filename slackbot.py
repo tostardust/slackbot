@@ -116,4 +116,4 @@ def run_newman_and_respond(response_url, newman_command, report_file_path):
         logging.exception("An error occurred while executing Newman")
 
 if __name__ == '__main__':
-    app.run(debug=False, port=443)
+    app.run(debug=False, port=5000)
