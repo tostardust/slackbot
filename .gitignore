@@ -1,3 +1,4 @@
 reports
 venv
 ngrok
+__pycache__

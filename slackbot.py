@@ -16,10 +16,9 @@ app = Flask(__name__)
 
 @app.route('/slack/command/help', methods=['POST'])
 def help_command():
-    channel_id = request.form['channel_id']
     client = WebClient(token=config.BOT_TOKEN)
     try:
-        client.chat_postMessage(channel=channel_id, text=texts.help)
+        client.chat_postMessage(channel=config.CHANNEL_ID, text=texts.help)
     except SlackApiError as e:
         logging.error(f"Slack API Error: {e}")
     return '', 200
@@ -99,10 +98,11 @@ def run_newman_and_respond(response_url, newman_command, report_file_path):
         if os.path.exists(report_file_path):
             client = WebClient(token=config.BOT_TOKEN)
             if process.returncode == 0:
+                client.chat_postMessage(channel=config.CHANNEL_ID, text=texts.success_run)
                 response = client.files_upload_v2(channel=config.CHANNEL_ID,
                                             file=report_file_path,
                                             title=f'Отчет от {timestamp}',
-                                            initial_comment=texts.success_run)
+                                            initial_comment=texts.success_run_report)
                 assert response['ok']
             elif process.returncode != 0:
                 response = client.files_upload_v2(channel=config.CHANNEL_ID,
