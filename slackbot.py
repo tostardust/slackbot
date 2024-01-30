@@ -55,21 +55,21 @@ def handle_command():
 def create_response_message(command, sub_command):
     if command == 'all':
         if sub_command and sub_command.startswith('stream-'):
-            return texts.all_tests_specific_env + f"{sub_command}..."
+            return texts.all_tests_specific_env + f"{sub_command} ⏳"
         else:
             return texts.all_tests_default_env
     elif command in ['kzt', 'ved']:
         uppercase = command.upper()
         if sub_command and sub_command.startswith('stream-'):
-            return f"{texts.specific_folder_specific_env}{sub_command} " + f"для команды {uppercase}..."
+            return f"{texts.specific_folder_specific_env}{sub_command} " + f"для команды {uppercase} ⏳"
         else:
-            return f"{texts.specific_folder_default_env}{uppercase}..."
+            return f"{texts.specific_folder_default_env}{uppercase} ⏳"
     else:
         return texts.general_error
 
 def construct_newman_command(command, sub_command, report_file_path):
 
-    base_command = f'newman run test.json --ssl-client-cert cert.pem --ssl-client-key cert.pem --ssl-client-passphrase {config.CERT_PASSWORD} --insecure -r htmlextra'
+    base_command = f'newman run test.json --ssl-client-cert cert.pem --ssl-client-key cert.pem --ssl-client-passphrase {config.CERT_PASSWORD} --insecure -r htmlextra --verbose'
 
     if command == 'all':
         if sub_command and sub_command.startswith('stream-'):
@@ -104,11 +104,12 @@ def run_newman_and_respond(response_url, newman_command, report_file_path):
                                             title=f'Отчет от {timestamp}',
                                             initial_comment=texts.success_run_report)
                 assert response['ok']
-            elif process.returncode != 0:
+            elif process.returncode == 1:
+                client.chat_postMessage(channel=config.CHANNEL_ID, text=texts.failed_run)
                 response = client.files_upload_v2(channel=config.CHANNEL_ID,
                                             file=report_file_path,
                                             title=f'Отчет от {timestamp}',
-                                            initial_comment=texts.failed_test)
+                                            initial_comment=texts.failed_run_report)
                 assert response['ok']
         else:
             logging.error(f"Report file not found: {report_file_path}")

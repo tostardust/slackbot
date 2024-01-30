@@ -2,3 +2,5 @@ reports
 venv
 ngrok
 __pycache__
+.env
+cert.pem
